@@ -23,10 +23,3 @@ except sr.RequestError as e:
 
 text = "I think you said " + audio_string
 subprocess.call('echo '+text+'|festival --tts', shell=True)
-
-
-
-=======
-	
-# Kommentti
->>>>>>> e5d69e4c0281ec2bd59b899d6a212a28a7090b82
