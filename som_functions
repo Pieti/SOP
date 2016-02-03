@@ -1,0 +1,50 @@
+# pybrain tutorial kopioitu
+# Ei opi
+
+from pybrain.tools.shortcuts import buildNetwork
+from pybrain.structure import TanhLayer, SoftmaxLayer
+from pybrain.datasets import SupervisedDataSet
+from pybrain.supervised.trainers import BackpropTrainer
+
+ds = SupervisedDataSet(2,1)
+ds.addSample((0, 0), (0))
+ds.addSample((0, 1), (1))
+ds.addSample((1, 0), (1))
+ds.addSample((1, 1), (0))
+
+net = buildNetwork(2, 3, 1, hiddenclass=TanhLayer, bias=True) #, outclass=SoftmaxLayer (googleta softmaxlayer)
+
+print('#####################')
+print('Info about network:')
+print(net['in'])
+print(net['hidden0'])
+print(net['out'])
+print(net['bias'])
+
+print('######################')
+print('training data')
+print(ds['input'])
+print(ds['target'])
+
+print('#############')
+
+testSet = [[0, 0], [0, 1], [1, 0], [1, 1]]
+
+print('Before training responses:')
+for testInput in testSet:
+    print("%d %d : %f " %(testInput[0], testInput[1], net.activate(testInput)))
+
+
+trainer = BackpropTrainer(net, ds)
+
+trainer.trainUntilConvergence(validationProportion=0.0002)
+
+print('After training responses:')
+for testInput in testSet:
+    print("%d %d : %f " %(testInput[0], testInput[1], net.activate(testInput)))
+
+
+
+
+
+
