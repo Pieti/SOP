@@ -23,7 +23,7 @@ def learn(train_file):
 
     desired_error = 0.00005
     max_iterations = 100000
-    iterations_between_reports = 1000
+    iterations_between_reports = 10
 
     ann = libfann.neural_net()
 
@@ -43,10 +43,11 @@ def learn(train_file):
 
 def test(file):
     """
+    excepts that <filename>.net and <filename>_test.data exists
+    Hardkoodattu kaksi tuloa ja yksi lähtö tulostuksiin
+
     :param file:  filename without extensions.
     :return:
-    except that <filename>.net and <filename>_test.data exists
-    Hardkoodattu kaksi tuloa ja yksi lähtö tulostuksiin
     """
     net_file = file + '.net'
     data_file = file + '_test.data'
@@ -67,7 +68,7 @@ def test(file):
         print("Input: %.2f %.2f, Output %.4f, Excepted %.4f" %(inputs[i][0], inputs[i][1], result[0], outputs[i][0] ))
 
 
-def createDistanceTestFile(filename, length):
+def createDistanceTestFile(filename, length, max=0.707, trainTest=False):
     """
     Esimerkki funktio datan luonnista. Tein ihan itse
 
@@ -78,8 +79,22 @@ def createDistanceTestFile(filename, length):
     inputs = []
     outputs = []
     for i in range(length):
-        a = random.uniform(0, 0.707)
-        b = random.uniform(0, 0.707)
+        if trainTest:
+            p = random.randrange(1)
+            if p == 0:
+                a = random.uniform(0, 0.2)
+            else:
+                a = random.uniform(0.5, max)
+
+            p = random.randrange(1)
+            if p == 0:
+                b = random.uniform(0, 0.2)
+            else:
+                b = random.uniform(0.5, max)
+
+        else:
+            a = random.uniform(0, max)
+            b = random.uniform(0, max)
         c = math.sqrt(math.pow(a, 2) + math.pow(b, 2))
         inputs.append([a, b])
         outputs.append([c])
@@ -92,7 +107,7 @@ def createDistanceTestFile(filename, length):
     data.save_train(filename)
 
 if __name__ == "__main__":
-    #createDistanceTestFile("distance_train.data", 100)  # Opetusdata (Tarvitsee tehdä vain kerran)
+    #createDistanceTestFile("distance_train.data", 50)  # Opetusdata (Tarvitsee tehdä vain kerran)
     #createDistanceTestFile("distance_test.data", 10) # Testaus data
     learn("distance") # Tekee uuden neuroverkon distance_train.datan perusteella ja opettaa sen
     test("distance") # Testaa äsken tehtyä verkkoa distance_test.datalla
