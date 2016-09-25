@@ -1,0 +1,3 @@
+datagenerator.m - voi tallentaa matriiseja, väritestia varten generoin 20 * 3 matriisin ja tallensin sen 'learn_data.mat'
+colortest.m - Täältä voidaan ajaa opetusdata som verkkoon ja lopuksi visualisoida painovektori, eli toteuttaa tämä http://www.ai-junkie.com/ann/som/som1.html
+SomClass.m - Työn alla lineaarisella naapuristolla toteutettu SOM - mukailee tätä http://mnemstudio.org/ai/nn/som_python_ex2.txt
