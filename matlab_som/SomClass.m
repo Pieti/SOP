@@ -1,3 +1,10 @@
+%{
+compute_input metodi jäi vaiheeseen ( ainakin testaamatta ).
+
+Lisäksi update_weights, get_minimum ovat tärkeitä.
+http://mnemstudio.org/ai/nn/som_python_ex2.txt
+%}
+
 classdef SomClass
    properties
        mClusters;
