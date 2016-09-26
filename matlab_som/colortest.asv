@@ -22,8 +22,8 @@ mySom = SomClass(clusters, vector_len, min_alpha, decay_rate, radius_reduction);
 
 %{ 
 One way to plot color dots
-Voidaan toteuttaa metodi jossa syötteenä on ( x,y,color ) vektoreita ja
-piirtää se scatterin avulla.
+Voidaan toteuttaa metodi jossa syötteenä on ( x,y,color ) tripletti ja se
+piirtää scatterin avulla
  
 x = [0, 0, 1, 1, 2, 2];
 y = [0, 1, 0, 1, 0, 1];

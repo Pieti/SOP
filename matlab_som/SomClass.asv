@@ -1,6 +1,5 @@
 %{
-compute_input Toimii 
-training Kesken ja testaamatta
+compute_input metodi jäi vaiheeseen ( ainakin testaamatta ).
 
 Lisäksi update_weights, get_minimum ovat tärkeitä.
 http://mnemstudio.org/ai/nn/som_python_ex2.txt
@@ -40,15 +39,11 @@ classdef SomClass
         obj.mDeltaVector = zeros(obj.mClusters, 1);
 
             for i = 1:obj.mClusters
-                display(obj.mWeightArray(1,:));
-                display(vector)
-                
-                d = obj.mWeightArray(1,:) - vector;
-                obj.mDeltaVector = d.^2;
-                    
-                    
-                    %obj.mDeltaVector(j) = norm(obj.mWeightArray(i,j), vector(j));
-                display(obj.mDeltaVector);
+                for j = 1:obj.mVectorLength
+                    obj.mDeltaVector(j) = norm(obj.mWeightArray(i,j),
+                %display(obj.mWeightArray(1,:));
+                %display(vector);
+                obj.mDeltaVector = norm(obj.mWeightArray(i,:), vector); % not sure about mWeigh index TODO : check
             end
     end
 
