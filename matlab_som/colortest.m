@@ -18,7 +18,11 @@ clear data;
 mySom = SomClass(clusters, vector_len, min_alpha, decay_rate, radius_reduction);
 
 % test compute_input method
-% mySom.compute_input([0.4, 0.5, 0.6]);
+mySom = mySom.compute_input([0.4, 0.5, 0.6]);
+
+d = get_minimum(mySom, mySom.mDeltaVector);
+
+display(d);
 
 %{ 
 One way to plot color dots
