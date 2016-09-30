@@ -25,20 +25,35 @@ decay_rate = 0.96; % default 0.96
 min_alpha = 0.01; % default 0.01
 radius_reduction =  0.023; % default 0.023
 
-delta_vector = zeros(clusters, 1);
-
-% init weight matrix, and save
-weight_matrix = rand(clusters, vector_len);
-
 load(learn_data_file, 'data'); 
 learn_data = data; 
 clear data;
 
 mySom = SomClass(clusters, vector_len, min_alpha, decay_rate, radius_reduction);
 
+startWeights = mySom.mWeightArray;
+%figure;
+%Plotter(startWeights, mySom.mWeightArray);
+
 mySom = mySom.training(learn_data);
 
-Plotter(weight_matrix, mySom.mWeightArray);
+figure;
+Plotter(startWeights, mySom.mWeightArray);
+
+test_data = [1.0, 0.0, 0.0;
+            0.0, 1.0, 0.0;
+            0.0, 0.0, 1.0];
+        
+columnNames = {'Red','Green','Blue'};
+
+for i = 1:size(test_data, 1)
+    display(mat2str(test_data(i,:)));
+    mySom = mySom.compute_input(test_data, i);
+    minimum = mySom.get_minimum(mySom.mDeltaVector);
+    display([columnNames{1,i}, ' winner is ', num2str(minimum)]);
+end
+        
+        
 
 % test compute_input method
 %mySom = mySom.compute_input([0.4, 0.5, 0.6]);

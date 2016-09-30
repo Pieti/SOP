@@ -47,7 +47,7 @@ classdef SomClass
             for i = 1:obj.mClusters
                 %display(obj.mWeightArray(i,:));
                 %display(vector)
-                d = obj.mWeightArray(i,:) - patternArray(vecNumber);
+                d = obj.mWeightArray(i,:) - patternArray(vecNumber,:);
                 obj.mDeltaVector(i) = sum(d.^2);
                 %display(obj.mDeltaVector(i));
             end
@@ -75,7 +75,7 @@ classdef SomClass
                 for i = 1:size(patternArray, 1)
                     obj.compute_input(patternArray, i);
                     dMin = obj.get_minimum(obj.mDeltaVector);
-                    obj.update_weights(i, dMin, patternArray);
+                    obj = obj.update_weights(i, dMin, patternArray);
                 end
                 % Reduce the learning rate.
                 obj.mAlpha = obj.mDecayRate * obj.mAlpha;
