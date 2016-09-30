@@ -1,13 +1,12 @@
 %{
-compute_input > oikean tyyppinen ulostulo, arvoja ei validoitu 
-get_minimum > oikea tyyppi, arvoja ei validoitu
-training Kesken ja testaamatta
-
+compute_input > oikean tyyppinen ulostulo, testaamatta 
+get_minimum > oikea tyyppi, testaamatta
+training > testaamatta
+updateweight > testaamatta, myös suuntiin ja indekseihin pitää kiinnittää
+huomiota
 Matlabin luokat on erikoisia, aina pitää palauttaa objekti jos haluaa tehdä 
 muutoksia luokkaan. (toinen vaihtoehto käyttää referenssiä 'classdef item < handle' ) 
 
-
-Lisäksi update_weights, get_minimum ovat tärkeitä.
 http://mnemstudio.org/ai/nn/som_python_ex2.txt
 %}
 
@@ -42,13 +41,13 @@ classdef SomClass
             end
         end
 
-        function obj = compute_input(obj, vector)
+        function obj = compute_input(obj, patternArray, vecNumber)
             %obj.testVariable = true;
             obj.mDeltaVector = zeros(obj.mClusters, 1);
             for i = 1:obj.mClusters
                 %display(obj.mWeightArray(i,:));
                 %display(vector)
-                d = obj.mWeightArray(i,:) - vector;
+                d = obj.mWeightArray(i,:) - patternArray(vecNumber);
                 obj.mDeltaVector(i) = sum(d.^2);
                 %display(obj.mDeltaVector(i));
             end
@@ -56,9 +55,9 @@ classdef SomClass
         end
         
         %this function cannot store variables thus it does not return obj
-        function minimum = get_minimum(obj, nodeArray)
+        function minimum = get_minimum(~, nodeArray)
             %display(['test ', num2str(obj.testVariable)]);
-            minimum = min(nodeArray);
+            [~, minimum] = min(nodeArray); % save index to minimum
         end
         
     
@@ -68,12 +67,15 @@ classdef SomClass
             reductionFlag = false;
             reductionPoint = 0;
 
-            while obj.mAlpha < obj.mMinAlpha
+            %display(['obj mAlpha: ', num2str(obj.mAlpha)  ])
+            %display(['obj mMinAlpha ', num2str(obj.mMinAlpha) ])
+            
+            while obj.mAlpha > obj.mMinAlpha
                 iterations = iterations + 1;
                 for i = 1:size(patternArray, 1)
-                    obj.compute_input(patternArray, i)
-                    dMin = obj.get_minimum(obj.DeltaVector);
-                    obj.update_weights(i, dMin, patternArray)
+                    obj.compute_input(patternArray, i);
+                    dMin = obj.get_minimum(obj.mDeltaVector);
+                    obj.update_weights(i, dMin, patternArray);
                 end
                 % Reduce the learning rate.
                 obj.mAlpha = obj.mDecayRate * obj.mAlpha;
@@ -89,7 +91,35 @@ classdef SomClass
 
             display(['Iterations: ', num2str(iterations)  ])
             display(['Neighborhood radius reduced after ', num2str(reductionPoint), ' iterations'])
+            display(['obj mAlpha: ', num2str(obj.mAlpha)  ])
+            display(['obj mMinAlpha ', num2str(obj.mMinAlpha) ])
+            
+        end
+        
+        function obj = update_weights(obj, vectorNumber, dMin, patternArray)
+            for i = 1:obj.mVectorLength
+                % Update the winner.
+                obj.mWeightArray(dMin, i) = obj.mWeightArray(dMin, i) + (obj.mAlpha * (patternArray(vectorNumber, i) - obj.mWeightArray(dMin, i)));
 
-            end   
+                % Only include neighbors before radius reduction point is reached.
+                if obj.mAlpha > obj.mReductionPoint
+                    if (dMin > 1) && (dMin < (obj.mMaxClusters)) % TODO : CHECK THIS 
+                        % Update neighbor to the left...
+                        obj.mWeightArray(dMin - 1, i) = obj.mWeightArray(dMin - 1, i) + (obj.mAlpha * (patternArray(vectorNumber, i) - obj.mWeightArray(dMin - 1, i)));
+                        % and update neighbor to the right.
+                        obj.mWeightArray(dMin + 1, i) = obj.mWeightArray(dMin + 1, i) + (obj.mAlpha * (patternArray(vectorNumber, i) - obj.mWeightArray(dMin + 1, i)));
+                    else
+                        if dMin == 1 % TODO : CHECK
+                            % Update neighbor to the right.
+                            obj.mWeightArray(dMin + 1, i) = obj.mWeightArray(dMin + 1, i) + (obj.mAlpha * (patternArray(vectorNumber, i) - obj.mWeightArray(dMin + 1, i)));
+                        else
+                            % Update neighbor to the left.
+                            obj.mWeightArray(dMin - 1, i) = obj.mWeightArray(dMin - 1, i) + (obj.mAlpha * (patternArray(vectorNumber, i) - obj.mWeightArray(dMin + 1, i)));
+
+                        end
+                    end
+                end
+            end
+        end           
     end
 end
