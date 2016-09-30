@@ -9,19 +9,19 @@ clear;
 
   Lopuksi visualisoidaan lopullinen painomatriisi ( alhaalla )
  
- Tämä mukailee siis http://www.ai-junkie.com/ann/som/som1.html tätä, mutta
- toteutetaan som verkolla jossa nodet on sijoitettu vierekkäin (
- yksiulotteinenvektori vs kaksiulotteinen vektori ) mukaillen 
-http://mnemstudio.org/ai/nn/som_python_ex2.txt tätä
+ Tarkoitus on siis toteuttaa tämä http://www.ai-junkie.com/ann/som/som1.html, poikkeuksena
+ toteutetaan som verkolla jossa nodet on sijoitettu vierekkäin ( kun alkuperäisessä kaksiulotteinen vektori ). Koodin pitäisi vastata
+ tätä
+http://mnemstudio.org/ai/nn/som_python_ex2.txt
 
 
-Tilanne 30.9: ohjelman pystyy ajamaan mutta tulokset eivät vaikuta olevan oikeita. 
+Tilanne 30.9: ohjelma mutta tulokset eivät vaikuta olevan oikeita. 
 %}
 
 learn_data_file = 'learn_data.mat';
 clusters = 16;
 vector_len = 3;
-decay_rate = 0.99; % default 0.96
+decay_rate = 0.96; % default 0.96
 min_alpha = 0.01; % default 0.01
 radius_reduction =  0.023; % default 0.023
 
