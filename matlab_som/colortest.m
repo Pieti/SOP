@@ -19,7 +19,7 @@ Tilanne 30.9: ohjelma mutta tulokset eivät vaikuta olevan oikeita.
 %}
 
 learn_data_file = 'learn_data.mat';
-clusters = 16;
+clusters = 64;
 vector_len = 3;
 decay_rate = 0.96; % default 0.96
 min_alpha = 0.01; % default 0.01
@@ -42,9 +42,10 @@ Plotter(startWeights, mySom.mWeightArray);
 
 test_data = [1.0, 0.0, 0.0;
             0.0, 1.0, 0.0;
-            0.0, 0.0, 1.0];
+            0.0, 0.0, 1.0;
+            0.5, 0.5, 0.5];
         
-columnNames = {'Red','Green','Blue'};
+columnNames = {'Red','Green','Blue','Grey'};
 
 for i = 1:size(test_data, 1)
     display(mat2str(test_data(i,:)));

@@ -73,7 +73,7 @@ classdef SomClass
             while obj.mAlpha > obj.mMinAlpha
                 iterations = iterations + 1;
                 for i = 1:size(patternArray, 1)
-                    obj.compute_input(patternArray, i);
+                    obj = obj.compute_input(patternArray, i);
                     dMin = obj.get_minimum(obj.mDeltaVector);
                     obj = obj.update_weights(i, dMin, patternArray);
                 end
@@ -103,7 +103,7 @@ classdef SomClass
 
                 % Only include neighbors before radius reduction point is reached.
                 if obj.mAlpha > obj.mReductionPoint
-                    if (dMin > 1) && (dMin < (obj.mMaxClusters)) % TODO : CHECK THIS 
+                    if (dMin > 1) && (dMin < (obj.mClusters)) % TODO : CHECK THIS 
                         % Update neighbor to the left...
                         obj.mWeightArray(dMin - 1, i) = obj.mWeightArray(dMin - 1, i) + (obj.mAlpha * (patternArray(vectorNumber, i) - obj.mWeightArray(dMin - 1, i)));
                         % and update neighbor to the right.
@@ -114,7 +114,7 @@ classdef SomClass
                             obj.mWeightArray(dMin + 1, i) = obj.mWeightArray(dMin + 1, i) + (obj.mAlpha * (patternArray(vectorNumber, i) - obj.mWeightArray(dMin + 1, i)));
                         else
                             % Update neighbor to the left.
-                            obj.mWeightArray(dMin - 1, i) = obj.mWeightArray(dMin - 1, i) + (obj.mAlpha * (patternArray(vectorNumber, i) - obj.mWeightArray(dMin + 1, i)));
+                            obj.mWeightArray(dMin - 1, i) = obj.mWeightArray(dMin - 1, i) + (obj.mAlpha * (patternArray(vectorNumber, i) - obj.mWeightArray(dMin - 1, i)));
 
                         end
                     end
