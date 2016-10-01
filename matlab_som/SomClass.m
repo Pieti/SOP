@@ -1,12 +1,13 @@
 %{
-compute_input > oikean tyyppinen ulostulo, testaamatta 
-get_minimum > oikea tyyppi, testaamatta
-training > testaamatta
-updateweight > testaamatta, myös suuntiin ja indekseihin pitää kiinnittää
-huomiota
+
 Matlabin luokat on erikoisia, aina pitää palauttaa objekti jos haluaa tehdä 
 muutoksia luokkaan. (toinen vaihtoehto käyttää referenssiä 'classdef item < handle' ) 
 
+voi olla että tällä hetkellä tapahtuu paljon tiedon kopiointia muuttujasta
+toiseen, en ole perehtynyt matlabin toimintaan, mutta referenssin käyttö
+varmistaisi ainakin ettei jokaista parametriä kopioida uuteen muuttujaan.
+
+Mallia katsottu
 http://mnemstudio.org/ai/nn/som_python_ex2.txt
 %}
 

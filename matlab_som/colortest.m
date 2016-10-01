@@ -14,12 +14,12 @@ clear;
  t‰t‰
 http://mnemstudio.org/ai/nn/som_python_ex2.txt
 
-
-Tilanne 30.9: ohjelma mutta tulokset eiv‰t vaikuta olevan oikeita. 
+30.9: ohjelma k‰‰ntyy mutta tulokset eiv‰t vaikuta olevan oikeita. 
+1.10 : ohjelma toimii, metodien pit‰‰ palauttaa aina objekti
 %}
 
 learn_data_file = 'learn_data.mat';
-clusters = 64;
+clusters = 32;
 vector_len = 3;
 decay_rate = 0.96; % default 0.96
 min_alpha = 0.01; % default 0.01
@@ -29,15 +29,18 @@ load(learn_data_file, 'data');
 learn_data = data; 
 clear data;
 
+%figure;
+% plot 300 first samples from learn data
+%Plotter(learn_data(1:300,:));
+
 mySom = SomClass(clusters, vector_len, min_alpha, decay_rate, radius_reduction);
 
 startWeights = mySom.mWeightArray;
-%figure;
-%Plotter(startWeights, mySom.mWeightArray);
 
 mySom = mySom.training(learn_data);
 
 figure;
+% plot startWeights vs learnedWeights
 Plotter(startWeights, mySom.mWeightArray);
 
 test_data = [1.0, 0.0, 0.0;
@@ -53,20 +56,3 @@ for i = 1:size(test_data, 1)
     minimum = mySom.get_minimum(mySom.mDeltaVector);
     display([columnNames{1,i}, ' winner is ', num2str(minimum)]);
 end
-        
-        
-
-% test compute_input method
-%mySom = mySom.compute_input([0.4, 0.5, 0.6]);
-
-%d = get_minimum(mySom, mySom.mDeltaVector);
-
-%display(d);
-
-%%{ 
-%One way to plot color dots
-%Voidaan toteuttaa metodi jossa syˆtteen‰ on ( x,y,color ) vektoreita ja
-%piirt‰‰ se scatterin avulla.
- 
-
-%%}
